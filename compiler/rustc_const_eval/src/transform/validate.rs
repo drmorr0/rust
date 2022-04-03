@@ -358,6 +358,7 @@ impl<'a, 'tcx> Visitor<'tcx> for TypeChecker<'a, 'tcx> {
             }
             StatementKind::StorageLive(..)
             | StatementKind::StorageDead(..)
+            | StatementKind::LlvmInlineAsm(..)
             | StatementKind::Coverage(_)
             | StatementKind::Nop => {}
         }

@@ -222,6 +222,22 @@ impl<'tcx> CheckInlineAssembly<'tcx> {
                 self.check_inline_asm(asm, span);
             }
 
+            ExprKind::LlvmInlineAsm(..) => {
+                self.items.push((ItemKind::Asm, span));
+                self.tcx.struct_span_lint_hir(
+                    UNDEFINED_NAKED_FUNCTION_ABI,
+                    expr.hir_id,
+                    span,
+                    |lint| {
+                        lint.build(
+                            "the LLVM-style inline assembly is unsupported in naked functions",
+                        )
+                        .help("use the new asm! syntax specified in RFC 2873")
+                        .emit();
+                    },
+                );
+            }
+
             ExprKind::DropTemps(..) | ExprKind::Block(..) | ExprKind::Err => {
                 hir::intravisit::walk_expr(self, expr);
             }

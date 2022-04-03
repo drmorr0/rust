@@ -7,6 +7,7 @@ use crate::type_of::LayoutLlvmExt;
 use crate::va_arg::emit_va_arg;
 use crate::value::Value;
 
+use rustc_ast as ast;
 use rustc_codegen_ssa::base::{compare_simd_types, wants_msvc_seh};
 use rustc_codegen_ssa::common::span_invalid_monomorphization_error;
 use rustc_codegen_ssa::common::{IntPredicate, TypeKind};
@@ -352,7 +353,7 @@ impl<'ll, 'tcx> IntrinsicCallMethods<'tcx> for Builder<'_, 'll, 'tcx> {
                     self.type_void(),
                     true,
                     false,
-                    llvm::AsmDialect::Att,
+                    ast::LlvmAsmDialect::Att,
                     &[span],
                     false,
                     None,

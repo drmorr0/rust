@@ -1022,6 +1022,15 @@ impl<'a> Visitor<'a> for AstValidator<'a> {
                 ExprKind::Let(..) if let Some(elem) = forbidden_let_reason => {
                     this.ban_let_expr(expr, elem);
                 },
+                ExprKind::LlvmInlineAsm(..) if !this.session.target.allow_asm => {
+                    struct_span_err!(
+                        this.session,
+                        expr.span,
+                        E0472,
+                        "llvm_asm! is unsupported on this target"
+                    )
+                    .emit();
+                }
                 ExprKind::Match(scrutinee, arms) => {
                     this.visit_expr(scrutinee);
                     for arm in arms {

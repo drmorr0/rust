@@ -332,6 +332,7 @@ impl<'a, 'tcx> Visitor<'a, 'tcx> for UnsafetyVisitor<'a, 'tcx> {
             | ExprKind::Box { .. }
             | ExprKind::If { .. }
             | ExprKind::InlineAsm { .. }
+            | ExprKind::LlvmInlineAsm { .. }
             | ExprKind::LogicalOp { .. }
             | ExprKind::Use { .. } => {
                 // We don't need to save the old value and restore it
@@ -379,7 +380,7 @@ impl<'a, 'tcx> Visitor<'a, 'tcx> for UnsafetyVisitor<'a, 'tcx> {
                     self.requires_unsafe(expr.span, DerefOfRawPointer);
                 }
             }
-            ExprKind::InlineAsm { .. } => {
+            ExprKind::InlineAsm { .. } | ExprKind::LlvmInlineAsm { .. } => {
                 self.requires_unsafe(expr.span, UseOfInlineAssembly);
             }
             ExprKind::Adt(box Adt {

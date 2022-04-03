@@ -447,11 +447,20 @@ pub enum MetadataType {
 }
 
 /// LLVMRustAsmDialect
-#[derive(Copy, Clone, PartialEq)]
+#[derive(Copy, Clone)]
 #[repr(C)]
 pub enum AsmDialect {
     Att,
     Intel,
+}
+
+impl AsmDialect {
+    pub fn from_generic(asm: rustc_ast::LlvmAsmDialect) -> Self {
+        match asm {
+            rustc_ast::LlvmAsmDialect::Att => AsmDialect::Att,
+            rustc_ast::LlvmAsmDialect::Intel => AsmDialect::Intel,
+        }
+    }
 }
 
 /// LLVMRustCodeGenOptLevel

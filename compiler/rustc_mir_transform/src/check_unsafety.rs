@@ -106,6 +106,10 @@ impl<'tcx> Visitor<'tcx> for UnsafetyChecker<'_, 'tcx> {
                 // safe (at least as emitted during MIR construction)
             }
 
+            StatementKind::LlvmInlineAsm { .. } => self.require_unsafe(
+                UnsafetyViolationKind::General,
+                UnsafetyViolationDetails::UseOfInlineAssembly,
+            ),
             StatementKind::CopyNonOverlapping(..) => unreachable!(),
         }
         self.super_statement(statement, location);
@@ -209,6 +213,7 @@ impl<'tcx> Visitor<'tcx> for UnsafetyChecker<'_, 'tcx> {
                             MutatingUseContext::Store
                                 | MutatingUseContext::Drop
                                 | MutatingUseContext::AsmOutput
+                                | MutatingUseContext::LlvmAsmOutput
                         )
                     );
                 // If this is just an assignment, determine if the assigned type needs dropping.

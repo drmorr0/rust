@@ -2,11 +2,12 @@
 
 #![allow(unused_must_use)]
 #![allow(unconditional_recursion)]
+#![allow(deprecated)] // llvm_asm!
 // ignore-android: FIXME (#20004)
 // ignore-emscripten no processes
 // ignore-sgx no processes
 
-#![feature(core_intrinsics)]
+#![feature(llvm_asm)]
 #![feature(rustc_private)]
 
 #[cfg(unix)]
@@ -16,10 +17,11 @@ use std::env;
 use std::process::Command;
 use std::thread;
 
+// lifted from the test module
 // Inlining to avoid llvm turning the recursive functions into tail calls,
 // which doesn't consume stack.
 #[inline(always)]
-pub fn black_box<T>(dummy: T) { std::intrinsics::black_box(dummy); }
+pub fn black_box<T>(dummy: T) { unsafe { llvm_asm!("" : : "r"(&dummy)) } }
 
 fn silent_recurse() {
     let buf = [0u8; 1000];

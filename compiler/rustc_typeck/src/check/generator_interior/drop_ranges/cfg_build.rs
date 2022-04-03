@@ -201,6 +201,7 @@ impl<'a, 'tcx> DropRangeVisitor<'a, 'tcx> {
             | ExprKind::Struct(..)
             | ExprKind::Repeat(..)
             | ExprKind::Yield(..)
+            | ExprKind::LlvmInlineAsm(_)
             | ExprKind::Err => (),
         }
     }
@@ -460,6 +461,7 @@ impl<'a, 'tcx> Visitor<'tcx> for DropRangeVisitor<'a, 'tcx> {
             | ExprKind::Struct(..)
             | ExprKind::Tup(..)
             | ExprKind::Type(..)
+            | ExprKind::LlvmInlineAsm(_)
             | ExprKind::Unary(..)
             | ExprKind::Yield(..) => intravisit::walk_expr(self, expr),
         }

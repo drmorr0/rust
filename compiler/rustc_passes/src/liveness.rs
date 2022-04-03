@@ -103,6 +103,7 @@ use rustc_span::Span;
 use std::collections::VecDeque;
 use std::io;
 use std::io::prelude::*;
+use std::iter;
 use std::rc::Rc;
 
 mod rwu_table;
@@ -468,6 +469,7 @@ impl<'tcx> Visitor<'tcx> for IrMaps<'tcx> {
             | hir::ExprKind::Struct(..)
             | hir::ExprKind::Repeat(..)
             | hir::ExprKind::InlineAsm(..)
+            | hir::ExprKind::LlvmInlineAsm(..)
             | hir::ExprKind::Box(..)
             | hir::ExprKind::Type(..)
             | hir::ExprKind::Err
@@ -1088,6 +1090,26 @@ impl<'a, 'tcx> Liveness<'a, 'tcx> {
                 succ
             }
 
+            hir::ExprKind::LlvmInlineAsm(ref asm) => {
+                let ia = &asm.inner;
+                let outputs = asm.outputs_exprs;
+                let inputs = asm.inputs_exprs;
+                let succ = iter::zip(&ia.outputs, outputs).rev().fold(succ, |succ, (o, output)| {
+                    // see comment on places
+                    // in propagate_through_place_components()
+                    if o.is_indirect {
+                        self.propagate_through_expr(output, succ)
+                    } else {
+                        let acc = if o.is_rw { ACC_WRITE | ACC_READ } else { ACC_WRITE };
+                        let succ = self.write_place(output, succ, acc);
+                        self.propagate_through_place_components(output, succ)
+                    }
+                });
+
+                // Inputs are executed first. Propagate last because of rev order
+                self.propagate_through_exprs(inputs, succ)
+            }
+
             hir::ExprKind::Lit(..)
             | hir::ExprKind::ConstBlock(..)
             | hir::ExprKind::Err
@@ -1355,6 +1377,20 @@ fn check_expr<'tcx>(this: &mut Liveness<'_, 'tcx>, expr: &'tcx Expr<'tcx>) {
                     }
                     _ => {}
                 }
+            }
+        }
+
+        hir::ExprKind::LlvmInlineAsm(ref asm) => {
+            for input in asm.inputs_exprs {
+                this.visit_expr(input);
+            }
+
+            // Output operands must be places
+            for (o, output) in iter::zip(&asm.inner.outputs, asm.outputs_exprs) {
+                if !o.is_indirect {
+                    this.check_place(output);
+                }
+                this.visit_expr(output);
             }
         }
 

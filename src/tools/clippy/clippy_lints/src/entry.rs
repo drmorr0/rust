@@ -498,7 +498,7 @@ impl<'tcx> Visitor<'tcx> for InsertSearcher<'_, 'tcx> {
                     self.loops.pop();
                 },
                 ExprKind::Block(block, _) => self.visit_block(block),
-                ExprKind::InlineAsm(_) => {
+                ExprKind::InlineAsm(_) | ExprKind::LlvmInlineAsm(_) => {
                     self.can_use_entry = false;
                 },
                 _ => {

@@ -67,7 +67,8 @@ impl Category {
             | ExprKind::Repeat { .. }
             | ExprKind::Assign { .. }
             | ExprKind::AssignOp { .. }
-            | ExprKind::ThreadLocalRef(_) => Some(Category::Rvalue(RvalueFunc::AsRvalue)),
+            | ExprKind::ThreadLocalRef(_)
+            | ExprKind::LlvmInlineAsm { .. } => Some(Category::Rvalue(RvalueFunc::AsRvalue)),
 
             ExprKind::ConstBlock { .. }
             | ExprKind::Literal { .. }

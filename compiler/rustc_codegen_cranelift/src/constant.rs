@@ -512,7 +512,7 @@ pub(crate) fn mir_operand_get_const_val<'tcx>(
                         {
                             return None;
                         }
-                        StatementKind::CopyNonOverlapping(_) => {
+                        StatementKind::LlvmInlineAsm(_) | StatementKind::CopyNonOverlapping(_) => {
                             return None;
                         } // conservative handling
                         StatementKind::Assign(_)

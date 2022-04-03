@@ -1,43 +1,72 @@
 error: asm with the `pure` option must have at least one output
+<<<<<<< HEAD
   --> $DIR/naked-functions.rs:110:14
+=======
+  --> $DIR/naked-functions.rs:136:14
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL |     asm!("", options(readonly, nostack), options(pure));
    |              ^^^^^^^^^^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^
 
 error: patterns not allowed in naked function parameters
+<<<<<<< HEAD
   --> $DIR/naked-functions.rs:20:5
+=======
+  --> $DIR/naked-functions.rs:23:5
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL |     mut a: u32,
    |     ^^^^^
 
 error: patterns not allowed in naked function parameters
+<<<<<<< HEAD
   --> $DIR/naked-functions.rs:22:5
+=======
+  --> $DIR/naked-functions.rs:25:5
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL |     &b: &i32,
    |     ^^
 
 error: patterns not allowed in naked function parameters
+<<<<<<< HEAD
   --> $DIR/naked-functions.rs:24:6
+=======
+  --> $DIR/naked-functions.rs:27:6
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL |     (None | Some(_)): Option<std::ptr::NonNull<u8>>,
    |      ^^^^^^^^^^^^^^
 
 error: patterns not allowed in naked function parameters
+<<<<<<< HEAD
   --> $DIR/naked-functions.rs:26:5
+=======
+  --> $DIR/naked-functions.rs:29:5
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL |     P { x, y }: P,
    |     ^^^^^^^^^^
 
 error: referencing function parameters is not allowed in naked functions
+<<<<<<< HEAD
   --> $DIR/naked-functions.rs:35:5
+=======
+  --> $DIR/naked-functions.rs:39:5
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL |     a + 1
    |     ^
    |
    = help: follow the calling convention in asm block to use parameters
 
+<<<<<<< HEAD
 error[E0787]: naked functions must contain a single asm block
   --> $DIR/naked-functions.rs:33:1
+=======
+warning: naked functions must contain a single asm block
+  --> $DIR/naked-functions.rs:36:1
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL | / pub unsafe extern "C" fn inc(a: u32) -> u32 {
 LL | |
@@ -48,21 +77,35 @@ LL | | }
    | |_^
 
 error: referencing function parameters is not allowed in naked functions
+<<<<<<< HEAD
   --> $DIR/naked-functions.rs:41:31
+=======
+  --> $DIR/naked-functions.rs:45:31
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL |     asm!("/* {0} */", in(reg) a, options(noreturn));
    |                               ^
    |
    = help: follow the calling convention in asm block to use parameters
 
+<<<<<<< HEAD
 error[E0787]: only `const` and `sym` operands are supported in naked functions
   --> $DIR/naked-functions.rs:41:23
+=======
+warning: only `const` and `sym` operands are supported in naked functions
+  --> $DIR/naked-functions.rs:45:23
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL |     asm!("/* {0} */", in(reg) a, options(noreturn));
    |                       ^^^^^^^^^
 
+<<<<<<< HEAD
 error[E0787]: naked functions must contain a single asm block
   --> $DIR/naked-functions.rs:47:1
+=======
+warning: naked functions must contain a single asm block
+  --> $DIR/naked-functions.rs:52:1
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL | / pub unsafe extern "C" fn inc_closure(a: u32) -> u32 {
 LL | |
@@ -71,8 +114,13 @@ LL | |     (|| a + 1)()
 LL | | }
    | |_^
 
+<<<<<<< HEAD
 error[E0787]: only `const` and `sym` operands are supported in naked functions
   --> $DIR/naked-functions.rs:64:10
+=======
+warning: only `const` and `sym` operands are supported in naked functions
+  --> $DIR/naked-functions.rs:72:10
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL |          in(reg) a,
    |          ^^^^^^^^^
@@ -86,8 +134,13 @@ LL |          lateout(reg) d,
 LL |          out(reg) e,
    |          ^^^^^^^^^^
 
+<<<<<<< HEAD
 error[E0787]: asm in naked functions must use `noreturn` option
   --> $DIR/naked-functions.rs:62:5
+=======
+warning: asm in naked functions must use `noreturn` option
+  --> $DIR/naked-functions.rs:69:5
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL | /     asm!("/* {0} {1} {2} {3} {4} {5} {6} */",
 LL | |
@@ -103,8 +156,13 @@ help: consider specifying that the asm block is responsible for returning from t
 LL |          sym G, options(noreturn),
    |               +++++++++++++++++++
 
+<<<<<<< HEAD
 error[E0787]: naked functions must contain a single asm block
   --> $DIR/naked-functions.rs:53:1
+=======
+warning: naked functions must contain a single asm block
+  --> $DIR/naked-functions.rs:59:1
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL | / pub unsafe extern "C" fn unsupported_operands() {
 LL | |
@@ -123,16 +181,26 @@ LL | |     );
 LL | | }
    | |_^
 
+<<<<<<< HEAD
 error[E0787]: naked functions must contain a single asm block
   --> $DIR/naked-functions.rs:76:1
+=======
+warning: naked functions must contain a single asm block
+  --> $DIR/naked-functions.rs:85:1
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL | / pub extern "C" fn missing_assembly() {
 LL | |
 LL | | }
    | |_^
 
+<<<<<<< HEAD
 error[E0787]: asm in naked functions must use `noreturn` option
   --> $DIR/naked-functions.rs:83:5
+=======
+warning: asm in naked functions must use `noreturn` option
+  --> $DIR/naked-functions.rs:94:5
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL |     asm!("");
    |     ^^^^^^^^
@@ -142,8 +210,13 @@ help: consider specifying that the asm block is responsible for returning from t
 LL |     asm!("", options(noreturn));
    |            +++++++++++++++++++
 
+<<<<<<< HEAD
 error[E0787]: asm in naked functions must use `noreturn` option
   --> $DIR/naked-functions.rs:85:5
+=======
+warning: asm in naked functions must use `noreturn` option
+  --> $DIR/naked-functions.rs:97:5
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL |     asm!("");
    |     ^^^^^^^^
@@ -153,8 +226,13 @@ help: consider specifying that the asm block is responsible for returning from t
 LL |     asm!("", options(noreturn));
    |            +++++++++++++++++++
 
+<<<<<<< HEAD
 error[E0787]: asm in naked functions must use `noreturn` option
   --> $DIR/naked-functions.rs:87:5
+=======
+warning: asm in naked functions must use `noreturn` option
+  --> $DIR/naked-functions.rs:100:5
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL |     asm!("");
    |     ^^^^^^^^
@@ -164,8 +242,13 @@ help: consider specifying that the asm block is responsible for returning from t
 LL |     asm!("", options(noreturn));
    |            +++++++++++++++++++
 
+<<<<<<< HEAD
 error[E0787]: naked functions must contain a single asm block
   --> $DIR/naked-functions.rs:81:1
+=======
+warning: naked functions must contain a single asm block
+  --> $DIR/naked-functions.rs:91:1
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL | / pub extern "C" fn too_many_asm_blocks() {
 LL | |
@@ -183,15 +266,24 @@ LL | | }
    | |_^
 
 error: referencing function parameters is not allowed in naked functions
+<<<<<<< HEAD
   --> $DIR/naked-functions.rs:96:11
+=======
+  --> $DIR/naked-functions.rs:111:11
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL |         *&y
    |           ^
    |
    = help: follow the calling convention in asm block to use parameters
 
+<<<<<<< HEAD
 error[E0787]: naked functions must contain a single asm block
   --> $DIR/naked-functions.rs:94:5
+=======
+warning: naked functions must contain a single asm block
+  --> $DIR/naked-functions.rs:108:5
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL | /     pub extern "C" fn inner(y: usize) -> usize {
 LL | |
@@ -201,20 +293,62 @@ LL | |
 LL | |     }
    | |_____^
 
+<<<<<<< HEAD
 error[E0787]: asm options unsupported in naked functions: `nomem`, `preserves_flags`
   --> $DIR/naked-functions.rs:104:5
+=======
+warning: the LLVM-style inline assembly is unsupported in naked functions
+  --> $DIR/naked-functions.rs:121:5
+   |
+LL |     llvm_asm!("");
+   |     ^^^^^^^^^^^^^
+   |
+   = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+   = note: for more information, see issue #32408 <https://github.com/rust-lang/rust/issues/32408>
+   = help: use the new asm! syntax specified in RFC 2873
+   = note: this warning originates in the macro `llvm_asm` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: naked functions must contain a single asm block
+  --> $DIR/naked-functions.rs:118:1
+   |
+LL | / unsafe extern "C" fn llvm() -> ! {
+LL | |
+LL | |
+LL | |     llvm_asm!("");
+...  |
+LL | |     core::hint::unreachable_unchecked();
+   | |     ------------------------------------ non-asm is unsupported in naked functions
+LL | | }
+   | |_^
+   |
+   = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
+   = note: for more information, see issue #32408 <https://github.com/rust-lang/rust/issues/32408>
+
+warning: asm options unsupported in naked functions: `nomem`, `preserves_flags`
+  --> $DIR/naked-functions.rs:129:5
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL |     asm!("", options(nomem, preserves_flags, noreturn));
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+<<<<<<< HEAD
 error[E0787]: asm options unsupported in naked functions: `nostack`, `pure`, `readonly`
   --> $DIR/naked-functions.rs:110:5
+=======
+warning: asm options unsupported in naked functions: `nostack`, `pure`, `readonly`
+  --> $DIR/naked-functions.rs:136:5
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL |     asm!("", options(readonly, nostack), options(pure));
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+<<<<<<< HEAD
 error[E0787]: asm in naked functions must use `noreturn` option
   --> $DIR/naked-functions.rs:110:5
+=======
+warning: asm in naked functions must use `noreturn` option
+  --> $DIR/naked-functions.rs:136:5
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL |     asm!("", options(readonly, nostack), options(pure));
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -231,7 +365,11 @@ LL |     asm!("", options(noreturn, may_unwind));
    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 warning: Rust ABI is unsupported in naked functions
+<<<<<<< HEAD
   --> $DIR/naked-functions.rs:123:15
+=======
+  --> $DIR/naked-functions.rs:145:15
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL | pub unsafe fn default_abi() {
    |               ^^^^^^^^^^^
@@ -239,47 +377,85 @@ LL | pub unsafe fn default_abi() {
    = note: `#[warn(undefined_naked_function_abi)]` on by default
 
 warning: Rust ABI is unsupported in naked functions
+<<<<<<< HEAD
   --> $DIR/naked-functions.rs:129:15
+=======
+  --> $DIR/naked-functions.rs:151:15
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL | pub unsafe fn rust_abi() {
    |               ^^^^^^^^
 
+<<<<<<< HEAD
 error: naked functions cannot be inlined
   --> $DIR/naked-functions.rs:169:1
+=======
+warning: naked functions cannot be inlined
+  --> $DIR/naked-functions.rs:191:1
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL | #[inline]
    | ^^^^^^^^^
 
+<<<<<<< HEAD
 error: naked functions cannot be inlined
   --> $DIR/naked-functions.rs:176:1
+=======
+warning: naked functions cannot be inlined
+  --> $DIR/naked-functions.rs:199:1
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL | #[inline(always)]
    | ^^^^^^^^^^^^^^^^^
 
+<<<<<<< HEAD
 error: naked functions cannot be inlined
   --> $DIR/naked-functions.rs:183:1
+=======
+warning: naked functions cannot be inlined
+  --> $DIR/naked-functions.rs:207:1
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL | #[inline(never)]
    | ^^^^^^^^^^^^^^^^
 
+<<<<<<< HEAD
 error: naked functions cannot be inlined
   --> $DIR/naked-functions.rs:190:1
+=======
+warning: naked functions cannot be inlined
+  --> $DIR/naked-functions.rs:215:1
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL | #[inline]
    | ^^^^^^^^^
 
+<<<<<<< HEAD
 error: naked functions cannot be inlined
   --> $DIR/naked-functions.rs:192:1
+=======
+warning: naked functions cannot be inlined
+  --> $DIR/naked-functions.rs:218:1
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL | #[inline(always)]
    | ^^^^^^^^^^^^^^^^^
 
+<<<<<<< HEAD
 error: naked functions cannot be inlined
   --> $DIR/naked-functions.rs:194:1
+=======
+warning: naked functions cannot be inlined
+  --> $DIR/naked-functions.rs:221:1
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
    |
 LL | #[inline(never)]
    | ^^^^^^^^^^^^^^^^
 
+<<<<<<< HEAD
 error: aborting due to 30 previous errors; 2 warnings emitted
+=======
+error: aborting due to 8 previous errors; 25 warnings emitted
+>>>>>>> parent of a34c0797528... Auto merge of #92816 - tmiasko:rm-llvm-asm, r=Amanieu
 
 For more information about this error, try `rustc --explain E0787`.

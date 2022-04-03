@@ -776,7 +776,8 @@ pub fn can_move_expr_to_closure_no_visit<'tcx>(
         | ExprKind::Continue(_)
         | ExprKind::Ret(_)
         | ExprKind::Yield(..)
-        | ExprKind::InlineAsm(_) => false,
+        | ExprKind::InlineAsm(_)
+        | ExprKind::LlvmInlineAsm(_) => false,
         // Accessing a field of a local value can only be done if the type isn't
         // partially moved.
         ExprKind::Field(

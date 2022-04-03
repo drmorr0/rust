@@ -828,6 +828,7 @@ symbols! {
         linker,
         lint_reasons,
         literal,
+        llvm_asm,
         load,
         loaded_from_disk,
         local,

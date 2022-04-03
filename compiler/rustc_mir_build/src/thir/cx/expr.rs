@@ -553,6 +553,12 @@ impl<'tcx> Cx<'tcx> {
                 line_spans: asm.line_spans,
             },
 
+            hir::ExprKind::LlvmInlineAsm(ref asm) => ExprKind::LlvmInlineAsm {
+                asm: &asm.inner,
+                outputs: self.mirror_exprs(asm.outputs_exprs),
+                inputs: self.mirror_exprs(asm.inputs_exprs),
+            },
+
             hir::ExprKind::ConstBlock(ref anon_const) => {
                 let tcx = self.tcx;
                 let local_def_id = tcx.hir().local_def_id(anon_const.hir_id);

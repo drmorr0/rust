@@ -631,6 +631,10 @@ impl<'tcx> SimplifyBranchSameOptimizationFinder<'_, 'tcx> {
                     .filter(|(_, bb)| {
                         // Reaching `unreachable` is UB so assume it doesn't happen.
                         bb.terminator().kind != TerminatorKind::Unreachable
+                    // But `asm!(...)` could abort the program,
+                    // so we cannot assume that the `unreachable` terminator itself is reachable.
+                    // FIXME(Centril): use a normalization pass instead of a check.
+                    || bb.statements.iter().any(|stmt| matches!(stmt.kind, StatementKind::LlvmInlineAsm(..)))
                     })
                     .peekable();
 
