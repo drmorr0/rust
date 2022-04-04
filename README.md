@@ -1,3 +1,47 @@
+# Instructions
+
+This is a customized fork of rustc designed for AVR.  It has a few bugfixes and such,
+but is a little complicated to get running.  We're using a patched version of LLVM to
+address [D114611](https://reviews.llvm.org/D114611).  The patch is actually from
+[D95664](https://reviews.llvm.org/D95664), and it sounds like upstream is going a
+different direction long-term but the patch roughly seems to work.
+
+In rustc, this fork includes a bug-fix for `memcmp` on AVR, so that it returns the right size integer
+(https://github.com/rust-lang/rust/pull/90791).  This version of `rustc` also reverts
+the change to remove `llvm_asm!`, since basically all the AVR rust libs use `llvm_asm!` liberally,
+and there hasn't been a ton of incentive to switch over to `asm!` because if you don't
+run a patched compiler the most recent nightly version you can use is from Jan 2021.
+
+The steps for building this are a little bit complicated:
+
+0. Fill out the `PATH_TO_RUST` values in the checked-in `config.toml`
+1. Build LLVM:
+
+```
+~/rust/src/llvm-project > mkdir build && cd build
+~/rust/src/llvm-project/build > cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release ../llvm
+~/rust/src/llvm-project/build > cmake --build . -- -j24
+```
+
+2. Build the stage0 compiler _without_ `llvm_asm!`; you have to do this because the
+   bootstrapping compiler gets downloaded and overriding this behaviour is annoying.
+   Comment out references to `llvm_asm` in `library/core/src/macros/mod.rs` (lines 1420-1444),
+   in `library/core/src/lib.rs` (line 186), `library/std/src/lib.rs` (lines 247 and 594),
+   `library/core/src/prelude/v1.rs` (line 59), and `library/std/src/prelude/v1.rs` (line 43).
+   Then, run
+
+```
+~/rust > ./x.py build --stage 0 library/core library/proc_macro
+```
+
+3. Build the stage2 compiler with `llvm_asm!`; revert the changes that you made in step 2,
+   then run
+
+```
+~/rust > ./x.py build --keep-stage-std 0 --stage 2 library/core library/proc_macro
+~/rust > rustup toolchain link stage2 build/x86_64-unknown-linux-gnu/stage2
+```
+
 # The Rust Programming Language
 
 This is the main source code repository for [Rust]. It contains the compiler,
